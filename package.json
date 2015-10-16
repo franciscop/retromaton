@@ -1,0 +1,15 @@
+{
+  "name": "retromaton",
+  "private": true,
+  "main": "server/app.js",
+  "engines": {
+    "node": "4.0.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "form-data": "^0.2.0",
+    "rpi-gpio": "^0.7.0"
+  }
+}
