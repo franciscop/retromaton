@@ -1,7 +1,8 @@
 {
   "name": "retromaton",
   "private": true,
-  "main": "server/app.js",
+  "main": "app.js",
+  "version": "0.1.0",
   "engines": {
     "node": "4.0.x"
   },
@@ -9,7 +10,9 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "defaults": "^1.0.3",
     "form-data": "^0.2.0",
+    "node-uuid": "^1.4.3",
     "rpi-gpio": "^0.7.0"
   }
 }

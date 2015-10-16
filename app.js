@@ -1,33 +1,17 @@
 // https://github.com/form-data/form-data
-var FormData = require('form-data');
-var request = require('request');
-var fs = require('fs');
+var remotecamera = require('./remotecamera.js');
 
-(function sendImage(){
+var options = {
+  url: "http://maton.herokuapp.com/",
+  width: 1280, height: 720,
+  debug: true,
+  data: { secret: 'secretstringaaaaaaa' }
+};
 
-  function onRequestSucceed(data){
-    console.log("Sent: ", data);
-    setTimeout(sendImage, 1000);
-  }
+remotecamera(options, function(err, res, body){
+  if (err) return console.log(err);
+  if (res.statusCode !== 200) return console.log("Error: " + res.statusCode);
+  console.log(body);
+});
 
-  var response = function (err, res) {
-    if (err) return console.error(err);
-
-    var body = '';
-    res.on('data', function(chunk) {
-        body += chunk;
-    });
-    res.on('end', function() {
-      onRequestSucceed(body);
-    });
-  };
-
-  var form = new FormData();
-  if (fs.existsSync('test.jpg')) {
-    form.append('info', 'It works!');
-    form.append('image', fs.createReadStream('./test.jpg'));
-    form.submit('http://localhost:3000', response);
-  }
-})();
-
-require('http').createServer().listen(3001);
+require('http').createServer().listen(3000);
