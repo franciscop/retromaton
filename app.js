@@ -4,7 +4,6 @@ var remotecamera = require('./remotecamera.js');
 var options = {
   url: "http://maton.herokuapp.com/",
   width: 1280, height: 720,
-  debug: true,
   data: { secret: 'secretstringaaaaaaa' }
 };
 

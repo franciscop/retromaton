@@ -2,7 +2,7 @@
   "name": "retromaton",
   "private": true,
   "main": "app.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "node": "4.0.x"
   },

@@ -1,3 +1,5 @@
+// Takes a picture and post it somewhere
+
 // Node included modules
 var fs = require('fs');
 var exec = require('child_process').exec;
@@ -26,8 +28,7 @@ module.exports = function(options, callback){
     timeout: 2000,
     name: new Date().getTime() + '_' + uid.v4(),
     form: 'image',
-    data: {},
-    debug: false
+    data: {}
   });
 
   // Derivated options that cannot be changed
@@ -47,20 +48,42 @@ function takeimage(opt, callback) {
     fs.mkdirSync(opt.base);
   }
 
-  // Execute the command to take an image of the specified size and name
-  var size = '-s' + opt.width + 'x' + opt.height;
-  child = exec("streamer " + size + " -f jpeg -o " + opt.temp, execCommand);
+  // Make sure that you have the package installed
+  if (process.platform == 'linux') {
+    exec('hash streamer 2>/dev/null || { echo "Proceeding to install streamer" && sudo apt-get install streamer; }', execCommandLinux);
+  }
+  else if (process.platform == 'darwin') {
+    exec('hash streamer 2>/dev/null || { echo "Proceeding to install streamer" && brew install imagesnap; }', execCommandMac);
+  }
+  else {
+    return callback(new Error(process.platform + " is not supported. Help us support it? (:"));
+  }
+
+  function execCommandLinux(err){
+    if (err) return callback(err);
+
+    // Execute the command to take an image of the specified size and name
+    var size = '-s' + opt.width + 'x' + opt.height;
+    child = exec("streamer " + size + " -f jpeg -o " + opt.temp, rename);
+  }
+
+  function execCommandMac(err){
+    if (err) return callback(err);
+
+    // Execute the command to take an image of the specified size and name
+    child = exec("imagesnap " + opt.file, send);
+  }
 
   // When the previous command to take a picture is executed
-  function execCommand (err){
+  function rename (err){
     if (err) return callback(err);
 
     // Change name to .jpg
-    fs.rename(opt.temp, opt.file, renamed);
+    fs.rename(opt.temp, opt.file, send);
   }
 
   // When we change the name of the file
-  function renamed(err, file){
+  function send(err, file){
     if (err) return callback(err);
 
     // Send the form to the remote api
