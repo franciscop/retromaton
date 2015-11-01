@@ -7,10 +7,14 @@ var options = {
   data: { secret: 'secretstringaaaaaaa' }
 };
 
-remotecamera(options, function(err, res, body){
-  if (err) return console.log(err);
-  if (res.statusCode !== 200) return console.log("Error: " + res.statusCode);
-  console.log(body);
+gpio.on('change', function(channel, value) {
+  remotecamera(options, function(err, res, body){
+    if (err) return console.log(err);
+    if (res.statusCode !== 200) return console.log("Error: " + res.statusCode);
+    console.log(body);
+  });
 });
+
+gpio.setup(7, gpio.DIR_IN, gpio.EDGE_BOTH);
 
 require('http').createServer().listen(3000);
