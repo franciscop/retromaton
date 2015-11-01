@@ -1,5 +1,5 @@
 // https://github.com/form-data/form-data
-var remotecamera = require('./remotecamera.js');
+var remotecamera = require('remotecamera');
 
 var options = {
   url: "http://maton.herokuapp.com/",

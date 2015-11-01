@@ -13,6 +13,7 @@
     "defaults": "^1.0.3",
     "form-data": "^0.2.0",
     "node-uuid": "^1.4.3",
+    "remotecamera": "^1.0.0",
     "rpi-gpio": "^0.7.0"
   }
 }
